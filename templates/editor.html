@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета пассажира</title>
+</head>
+<body>
+<h1>Анкета пассажира</h1>
+<form method="post" action="/change/search/edit" >
+{% for row in passenger%}
+	<p>
+	    <label for="point_A">Пункт А</label>
+	    <input type="text" value="{{row.point_A}}" name="point_A" required>
+	</p>
+    <p>
+	    <label for="point_B">Пункт Б</label>
+	    <input type="text" value="{{row.point_B}}" name="point_B" required>
+	</p>
+    <p>
+	    <label for="pas_quantity">Количество пассажиров</label>
+	    <input type="number" value="{{row.pas_quantity}}" name="pas_quantity" required>
+	</p>
+    <p>
+	    <label for="children">Количество детей</label>
+	    <input type="number" value="{{row.children}}" name="children" required>
+	</p>
+    <p>
+	    <label for="pets">Животныe</label>
+    	<input type="checkbox" value="{{row.pets}}" name="pets">
+	</p>
+    <p>
+	    <label for="music">Предпочтения в музыке</label>
+	    <input type="text" value="{{row.music}}" name="music" required>
+	</p>
+    <p>
+	    <label for="phone">Контактный телефон</label>
+	    <input type="tel" name="phone" value="{{row.phone}}" list="tel-list" pattern="\8\9[0-9]{9}" required>
+	</p>
+	<input type="hidden" value="{{row.id}}" name="id" required>
+	<p>
+		<button type="submit">Редактировать поездку</button>
+	</p>
+	{% endfor %}
+	{% for row in driver%}
+	<p>
+	    <label for="point_A">Пункт А</label>
+	    <input type="text" value="{{row.point_A}}" name="point_A" required>
+	</p>
+    <p>
+	    <label for="point_B">Пункт Б</label>
+	    <input type="text" value="{{row.point_B}}" name="point_B" required>
+	</p>
+    <p>
+	    <label for="car">Машина</label>
+	    <input type="text" value="{{row.car}}" name="car" required>
+	</p>
+    <p>
+	    <label for="free_place">Количество свободных мест</label>
+	    <input type="number" value="{{row.free_place}}" name="free_place" required>
+	</p>
+    <p>
+	    <label for="children">Количество детей</label>
+	    <input type="number" value="{{row.children}}" name="children" required>
+	</p>
+    <p>
+	    <label for="pets">Животныe</label>
+    	<input type="checkbox" value="{{row.pets}}" name="pets">
+	</p>
+    <p>
+	    <label for="music">Предпочтения в музыке</label>
+	    <input type="text" value="{{row.music}}" name="music" required>
+	</p>
+    <p>
+	    <label for="phone">Контактный телефон</label>
+	    <input type="tel" name="phone" value="{{row.phone}}" list="tel-list" placeholder="89001234567" pattern="\8\9[0-9]{9}" required>
+	</p>
+	<input type="hidden" value="{{row.id}}" name="id" required>
+	<input type="hidden" value="{{row.id}}" name="id" required>
+	<p>
+		<button type="submit">Редактировать поездку</button>
+	</p>
+	{% endfor %}
+
+</form>
+</body>
+</html>

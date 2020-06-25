@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск поездки</title>
+</head>
+<body>
+<h1>Выберите поездку</h1>
+<form method="post" action="/find_ride/search" >
+
+    <label for="point_A">Пункт А</label>
+    <input type="text" name="point_A" required>
+    <label for="point_B">Пункт Б</label>
+    <input type="text" name="point_B" required>
+    <label for="driver">Водитель</label>
+    <input type="checkbox" name="driver">
+    <label for="passenger">Пассажир</label>
+    <input type="checkbox" name="passenger">
+    <label for="quantity">Количество мест</label>
+    <input type="number" name="quantity">
+    <label for="children">Детей</label>
+    <input type="number" name="children">
+    <label for="pets">Животныe</label>
+    <input type="checkbox" name="pets">
+    <label for="music">Музыка</label>
+    <input type="text" name="music">
+    <p>
+		<button type="submit">Найти</button>
+	</p>
+</form>
+
+</body>
+</html>

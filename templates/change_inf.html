@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td><h3>Пасажир</h3></td>
+    </tr>
+    <tr>
+        <td>Пункт А</td>
+        <td>Пункт Б</td>
+        <td>Количество пассажиров</td>
+        <td>Количество детей</td>
+        <td>Животные</td>
+        <td>Предпочтения в музыке</td>
+        <td>Контактный телефон</td>
+    </tr>
+{% for row in passenger %}
+    <tr>
+        <td>{{row.point_A}}</td>
+        <td>{{row.point_B}}</td>
+        <td>{{row.pas_quantity}}</td>
+        <td>{{row.children}}</td>
+        <td>{{row.pets}}</td>
+        <td>{{row.music}}</td>
+        <td>{{row.phone}}</td>
+        <td><a href="{{url_for('change', a=row.id)}}">Изменить</a></td>
+        <td><a href="{{url_for('delete', delete=row.id)}}">Удалить</a></td>
+    </tr>
+{% endfor %}
+    <tr>
+        <td><h3>Водитель</h3></td>
+    </tr>
+    <tr>
+        <td>Пункт А</td>
+        <td>Пункт Б</td>
+        <td>Машина</td>
+        <td>Количество свободных мест</td>
+        <td>Количество детей</td>
+        <td>Животныe</td>
+        <td>Предпочтения в музыке</td>
+        <td>Контактный телефон</td>
+    </tr>
+{% for row in driver %}
+    <tr>
+        <td>{{row.point_A}}</td>
+        <td>{{row.point_B}}</td>
+        <td>{{row.car}}</td>
+        <td>{{row.free_place}}</td>
+        <td>{{row.children}}</td>
+        <td>{{row.pets}}</td>
+        <td>{{row.music}}</td>
+        <td>{{row.phone}}</td>
+        <td><a href="{{url_for('change', b=row.id)}}">Изменить</a></td>
+        <td><a href="{{url_for('delete', delete=row.id, flag=car)}}">Удалить</a></td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>

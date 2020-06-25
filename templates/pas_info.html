@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета пассажира</title>
+</head>
+<body>
+<h1>Анкета пассажира</h1>
+<form method="post" action="/create_ride_main/create_passenger_inf" >
+
+	<p>
+	    <label for="point_A">Пункт А</label>
+	    <input type="text" name="point_A" required>
+	</p>
+    <p>
+	    <label for="point_B">Пункт Б</label>
+	    <input type="text" name="point_B" required>
+	</p>
+    <p>
+	    <label for="pas_quantity">Количество пассажиров</label>
+	    <input type="number" name="pas_quantity" required>
+	</p>
+    <p>
+	    <label for="children">Количество детей</label>
+	    <input type="number" name="children" required>
+	</p>
+    <p>
+	    <label for="pets">Животныe</label>
+    	<input type="checkbox" name="pets">
+	</p>
+    <p>
+	    <label for="music">Предпочтения в музыке</label>
+	    <input type="text" name="music" required>
+	</p>
+    <p>
+	    <label for="phone">Контактный телефон</label>
+	    <input type="tel" name="phone" list="tel-list" placeholder="89001234567" pattern="\8\9[0-9]{9}" required>
+	</p>
+	<p>
+		<button type="submit">Добавить поездку</button>
+	</p>
+</form>
+</body>
+</html>
