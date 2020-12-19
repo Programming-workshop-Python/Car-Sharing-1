@@ -1,8 +1,7 @@
 from flask import render_template, request, redirect, url_for, Blueprint
 from DataBase.database import Passenger, Driver
 from DataBase.AddData import add_data
-from settings import app, db
-
+from settings import app, db, logger
 posts_controller = Blueprint(name='posts_controller', import_name=__name__)
 
 #Главная страница
@@ -31,7 +30,10 @@ def create_rider_inf():
         music = request.form.get("music")
         phone = request.form.get("phone")
         driver = Driver(point_A, point_B, car, free_place, children, pets, music, phone)
-        add_data(driver)
+        try:
+            add_data(driver)
+        except Exception as exc:
+            logger.warning('create action failed with errors: {exc}', exc_info=True)
 
     return redirect(url_for(".passenger_find", a=point_A, b=point_B, free_place=free_place, children=children, pets=pets))
 
@@ -43,9 +45,11 @@ def passenger_find():
     pas_quant = request.args.get('free_place')
     chil = request.args.get('children')
     pets = request.args.get('pets')
-    kwargs = {"point_A": a, "point_B": b, "pas_quantity": pas_quant, "children": chil, "pets": pets}
-    passengers = Passenger.query.filter_by(**kwargs).all()
-
+    try:
+        kwargs = {"point_A": a, "point_B": b, "pas_quantity": pas_quant, "children": chil, "pets": pets}
+        passengers = Passenger.query.filter_by(**kwargs).all()
+    except Exception as exc:
+        logger.warning('postgre_request exeption: {exc}', exc_info=True)
     return render_template("pas_find.html", passenger=passengers)
 
 @app.route('/create_ride_main/create_rider_inf/selected', methods=['GET'])
@@ -68,7 +72,10 @@ def create_passenger_inf():
         phone = request.form.get("phone")
 
         passenger = Passenger(point_A, point_B, pas_quantity, children, pets, music, phone)
-        add_data(passenger)
+        try:
+            add_data(passenger)
+        except Exception as exc:
+            logger.warning('create action failed with errors: {exc}', exc_info=True)
     return redirect(url_for(".driver_find", a=point_A, b=point_B, pas_quantity=pas_quantity, children=children, pets=pets))
 
 @app.route('/create_ride_main/create_passenger_inf', methods=['GET'])
@@ -79,9 +86,11 @@ def driver_find():
     free_place = request.args.get('pas_quantity')
     chil = request.args.get('children')
     pets = request.args.get('pets')
-    kwargs = {"point_A": a, "point_B": b, "free_place": free_place, "children": chil, "pets": pets}
-    driver = Driver.query.filter_by(**kwargs).all()
-
+    try:
+        kwargs = {"point_A": a, "point_B": b, "free_place": free_place, "children": chil, "pets": pets}
+        driver = Driver.query.filter_by(**kwargs).all()
+    except Exception as exc:
+        logger.warning('postgre_request exeption: {exc}', exc_info=True)
     return render_template("driver_find.html", driver=driver)
 
 #Поиск по критериям
@@ -122,7 +131,10 @@ def search():
             kwargs['pets'] = pets
         if music:
             kwargs['music'] = music
-        ride = Passenger.query.filter_by(**kwargs).all()
+        try:
+            ride = Passenger.query.filter_by(**kwargs).all()
+        except Exception as exc:
+            logger.warning('postgre_request exeption: {exc}', exc_info=True)
         return  render_template('pas_find.html', passenger=ride)
 
 
@@ -135,16 +147,22 @@ def select_ride():
 @app.route('/change/search', methods=['POST']) # возможно объединить с find ride только метод пост
 def selected_ride():
     phone = request.form.get("phone")
-    ride_pas = Passenger.query.filter_by(phone=phone).all()
-    ride_driv = Driver.query.filter_by(phone=phone).all()
+    try:
+        ride_pas = Passenger.query.filter_by(phone=phone).all()
+        ride_driv = Driver.query.filter_by(phone=phone).all()
+    except Exception as exc:
+        logger.warning('postgre_request exeption: {exc}', exc_info=True)
     return render_template('change_inf.html', driver=ride_driv, passenger=ride_pas)
 
 @app.route('/change/search', methods=['GET']) # возможно объединить с find ride только метод пост
 def change():
     passenger = request.args.get('a')
     driver = request.args.get('b')
-    ride_pas = Passenger.query.filter_by(id=passenger).all()
-    ride_driv = Driver.query.filter_by(id=driver).all()
+    try:
+        ride_pas = Passenger.query.filter_by(id=passenger).all()
+        ride_driv = Driver.query.filter_by(id=driver).all()
+    except Exception as exc:
+        logger.warning('postgre_request exeption: {exc}', exc_info=True)
     if passenger:
         idd = passenger
     elif driver:
@@ -164,11 +182,17 @@ def changes():
     music = request.form.get("music")
     phone = request.form.get("phone")
     if car:
-        kwargs = {"id": id, "point_A": point_A, "point_B": point_B, "car": car, "free_place": free_place, "children": children, "pets": pets, "phone": phone}
-        driver = Driver.query.filter_by(id=id).update(kwargs, synchronize_session='evaluate')
+        try:
+            kwargs = {"id": id, "point_A": point_A, "point_B": point_B, "car": car, "free_place": free_place, "children": children, "pets": pets, "phone": phone}
+            driver = Driver.query.filter_by(id=id).update(kwargs, synchronize_session='evaluate')
+        except Exception as exc:
+            logger.warning('postgre_update exeption: {exc}', exc_info=True)
     else:
-        kwargs = {"id": id, "point_A": point_A, "point_B": point_B, "pas_quantity": pas_quantity, "children": children, "pets": pets, "phone": phone}
-        passenger = Passenger.query.filter_by(id=id).update(kwargs, synchronize_session='evaluate')
+        try:
+            kwargs = {"id": id, "point_A": point_A, "point_B": point_B, "pas_quantity": pas_quantity, "children": children, "pets": pets, "phone": phone}
+            passenger = Passenger.query.filter_by(id=id).update(kwargs, synchronize_session='evaluate')
+        except Exception as exc:
+            logger.warning('postgre_update exeption: {exc}', exc_info=True)
     db.session.commit()
     return render_template("start_page.html")
 
@@ -178,8 +202,14 @@ def delete():
     flag = request.args.get('flag')
     id = request.args.get('delete')
     if flag:
-        dele = Driver.query.filter_by(id=id).delete()
+        try:
+            dele = Driver.query.filter_by(id=id).delete()
+        except Exception as exc:
+            logger.warning('postgre_del exeption: {exc}', exc_info=True)
     else:
-        dele = Passenger.query.filter_by(id=id).delete()
+        try:
+            dele = Passenger.query.filter_by(id=id).delete()
+        except Exception as exc:
+            logger.warning('postgre_del exeption: {exc}', exc_info=True)
     db.session.commit()
     return render_template("start_page.html")

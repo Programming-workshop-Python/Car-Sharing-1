@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from  sqlalchemy.orm import sessionmaker
+import logging
 
 def create_app():
     app = Flask(__name__)
@@ -11,8 +11,21 @@ def create_config(app):
     db = SQLAlchemy(app)
     return db
 
+def setup_logger():
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s - %(message)s')
+    file_handler = logging.FileHandler(filename='app.log', mode='w')
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+    return logger
+
 app = create_app()
 db = create_config(app)
+logger = setup_logger()
+
 
 
 
