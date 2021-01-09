@@ -1,3 +1,1 @@
-# Car-Sharing-1
-This is work by Anastasia Filichkina
-Sorry, but i didn't install all packeges on macOS (Catalina), so i take other laptop with Mint 19
+Для запуска проекта необходимы: PostgreSQL, Python 3.7, pgAdmin III, PyCharm 2020.3

@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, Blueprint
 from DataBase.database import Passenger, Driver
 from DataBase.AddData import add_data
 from settings import app, db, logger
+db.create_all()
 posts_controller = Blueprint(name='posts_controller', import_name=__name__)
 
 #Главная страница
@@ -59,7 +60,7 @@ def selected():
 @app.route('/create_ride_main/create_passenger', methods=['GET'])
 def create_passenger():
     return render_template("pas_info.html")
-
+passenger_find
 @app.route('/create_ride_main/create_passenger_inf', methods=['POST'])
 def create_passenger_inf():
     if(request.method == 'POST'):

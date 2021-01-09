@@ -49,4 +49,3 @@ class Passenger(db.Model):
         self.pets = pets
         self.music = music
         self.phone = phone
-db.create_all()
