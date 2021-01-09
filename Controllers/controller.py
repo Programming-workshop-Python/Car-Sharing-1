@@ -46,8 +46,13 @@ def passenger_find():
     pas_quant = request.args.get('free_place')
     chil = request.args.get('children')
     pets = request.args.get('pets')
+    if pets == 'on':
+        pets = 1
+    else:
+        pets = 0
     try:
         kwargs = {"point_A": a, "point_B": b, "pas_quantity": pas_quant, "children": chil, "pets": pets}
+        print(pets)
         passengers = Passenger.query.filter_by(**kwargs).all()
     except Exception as exc:
         logger.warning('postgre_request exeption: {exc}', exc_info=True)
@@ -71,7 +76,10 @@ def create_passenger_inf():
         pets = request.form.get("pets")
         music = request.form.get("music")
         phone = request.form.get("phone")
-
+        if pets == 'on':
+            pets = 1
+        else:
+            pets = 0
         passenger = Passenger(point_A, point_B, pas_quantity, children, pets, music, phone)
         try:
             add_data(passenger)

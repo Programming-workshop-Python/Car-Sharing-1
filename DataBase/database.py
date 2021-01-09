@@ -9,7 +9,7 @@ class Driver(db.Model):
     car = db.Column(db.String)
     free_place = db.Column(db.Integer)
     children = db.Column(db.Integer)
-    pets = db.Column(db.String)
+    pets = db.Column(db.Integer)
     music = db.Column(db.String)
     phone = db.Column(db.String)
 
@@ -34,7 +34,7 @@ class Passenger(db.Model):
     point_B = db.Column(db.String)
     pas_quantity = db.Column(db.Integer)
     children = db.Column(db.Integer)
-    pets = db.Column(db.String)
+    pets = db.Column(db.Integer)
     music = db.Column(db.String)
     phone = db.Column(db.String)
 
